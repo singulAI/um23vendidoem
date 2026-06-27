@@ -139,8 +139,9 @@ export function ModuleFormPage({
   mode: "new" | "edit";
 }) {
   const navigate = useNavigate();
-  const existing = id ? module.data().find((r) => String(r.id) === id) : undefined;
+  const { row: existing } = useResource(module.key, mode === "edit" ? id : undefined);
   const isEdit = mode === "edit";
+
 
   return (
     <div className="mx-auto max-w-3xl">
