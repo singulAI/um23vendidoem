@@ -32,9 +32,10 @@ export interface DashboardService {
 /**
  * Full service container exposed to the app.
  *
- * Indexed by module key (matches ModuleConfig.key). The list of known keys
- * is open — adding a new module is configuration, not type plumbing.
+ * `resources` is indexed by module key (matches ModuleConfig.key). Adding a
+ * new module is configuration — no type plumbing.
  */
-export type ServiceRegistry = {
+export interface ServiceRegistry {
   dashboard: DashboardService;
-} & Record<string, CrudService<GenericRow>>;
+  resources: Record<string, CrudService<GenericRow>>;
+}
