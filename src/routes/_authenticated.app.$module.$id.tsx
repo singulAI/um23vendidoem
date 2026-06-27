@@ -2,7 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ModuleDetailPage, ModuleFormPage } from "@/components/app/ModuleDetailPage";
 import { MODULES_BY_KEY } from "@/lib/modules";
 
-export const Route = createFileRoute("/app/$module/$id")({
+export const Route = createFileRoute("/_authenticated/app/$module/$id")({
   loader: ({ params }) => {
     const mod = MODULES_BY_KEY[params.module];
     if (!mod) throw notFound();

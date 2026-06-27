@@ -3,7 +3,7 @@ import { ArrowUpRight, Gavel, Package, Sparkles, TrendingUp } from "lucide-react
 import { Card, PageHeader, StatusPill } from "@/components/app/Primitives";
 import { alertas, jobs, leiloes, organizadores } from "@/lib/mock";
 
-export const Route = createFileRoute("/app/")({
+export const Route = createFileRoute("/_authenticated/app/")({
   head: () => ({ meta: [{ title: "Dashboard — 123Vendido" }] }),
   component: DashboardPage,
 });

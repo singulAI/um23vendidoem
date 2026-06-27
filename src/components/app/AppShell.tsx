@@ -1,9 +1,18 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Bell, ChevronRight, Menu, Search } from "lucide-react";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Bell, ChevronRight, LogOut, Menu, Search, UserCircle2 } from "lucide-react";
 import { useState } from "react";
 import { Logo123Vendido } from "@/components/brand/Logo123Vendido";
 import { NAV_GROUPS, MODULES_BY_KEY } from "@/lib/modules";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function AppShell() {
   const [open, setOpen] = useState(false);
@@ -84,9 +93,7 @@ export function AppShell() {
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
             </button>
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
-              AC
-            </div>
+            <UserMenu />
           </div>
         </header>
 
@@ -123,5 +130,49 @@ function Breadcrumbs({ segments }: { segments: string[] }) {
         </span>
       ))}
     </nav>
+  );
+}
+
+function UserMenu() {
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+  const initials = (profile?.display_name ?? user?.email ?? "??")
+    .split(/[\s@.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase())
+    .join("");
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-primary/15 text-sm font-semibold text-primary">
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+          ) : (
+            initials || "?"
+          )}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel className="flex flex-col gap-0.5">
+          <span className="truncate text-sm">{profile?.display_name ?? "Usuário"}</span>
+          <span className="truncate text-xs font-normal text-muted-foreground">{user?.email}</span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => navigate({ to: "/app/perfil" })}>
+          <UserCircle2 className="mr-2 h-4 w-4" /> Perfil
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={async () => {
+            await signOut();
+            navigate({ to: "/auth", replace: true });
+          }}
+        >
+          <LogOut className="mr-2 h-4 w-4" /> Sair
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
