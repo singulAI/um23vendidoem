@@ -18,7 +18,7 @@ export function AppShell() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const seg = pathname.replace(/^\/app\/?/, "").split("/").filter(Boolean);
-  const activeKey = seg[0] || "dashboard";
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
