@@ -86,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "123Vendido, leilões, inteligência de dados, análise de editais, SaaS, oportunidades, leilão judicial, leilão extrajudicial",
       },
       { name: "author", content: "123Vendido" },
-      { property: "og:title", content: "123Vendido — Inteligência que antecede." },
+      { property: "og:title", content: "123Vendido — Inteligência que antecede. Decisões que concluem." },
       {
         property: "og:description",
         content:
@@ -95,11 +95,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "123Vendido" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "123Vendido" },
+      { name: "twitter:title", content: "123Vendido — Inteligência que antecede. Decisões que concluem." },
       {
         name: "twitter:description",
         content: "Inteligência que antecede. Decisões que concluem.",
       },
+      { name: "description", content: "Plataforma 123Vendido. Mais inteligência, Menos risco.
+Tudo o que você precisa para transformar dados em decisões antes do lance." },
+      { property: "og:description", content: "Plataforma 123Vendido. Mais inteligência, Menos risco.
+Tudo o que você precisa para transformar dados em decisões antes do lance." },
+      { name: "twitter:description", content: "Plataforma 123Vendido. Mais inteligência, Menos risco.
+Tudo o que você precisa para transformar dados em decisões antes do lance." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/cbbfb241-597b-4d09-ab2a-cf7c929dbd10/id-preview-be90600a--4ac820ed-543d-4a9b-90db-c2976f7d4c6e.lovable.app-1782597895603.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/cbbfb241-597b-4d09-ab2a-cf7c929dbd10/id-preview-be90600a--4ac820ed-543d-4a9b-90db-c2976f7d4c6e.lovable.app-1782597895603.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
