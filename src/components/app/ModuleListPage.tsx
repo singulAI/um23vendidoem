@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight, Download, Filter, LayoutGrid, List, Plus, Se
 import type { ModuleConfig } from "@/lib/modules";
 import { Card, EmptyState, PageHeader, SkeletonRows, StatusPill } from "./Primitives";
 import { cn } from "@/lib/utils";
+import { services } from "@/services";
+import type { GenericRow } from "@/services/interfaces";
 
 type ViewMode = "table" | "cards";
 
@@ -14,13 +16,36 @@ export function ModuleListPage({ module }: { module: ModuleConfig }) {
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [all, setAll] = useState<GenericRow[]>([]);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 350);
-    return () => clearTimeout(t);
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    const svc = services.resources[module.key];
+    if (!svc) {
+      setAll([]);
+      setLoading(false);
+      return;
+    }
+    svc
+      .list({ page: 1, pageSize: 500 })
+      .then((res) => {
+        if (cancelled) return;
+        setAll(res.items);
+      })
+      .catch((e: unknown) => {
+        if (cancelled) return;
+        setError(e instanceof Error ? e.message : "Falha ao carregar dados");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [module.key]);
-
-  const all = useMemo(() => module.data(), [module]);
 
   const filtered = useMemo(() => {
     return all.filter((row) => {
@@ -42,10 +67,13 @@ export function ModuleListPage({ module }: { module: ModuleConfig }) {
   const filterOptions = useMemo(() => {
     const out: Record<string, string[]> = {};
     for (const f of module.filters ?? []) {
-      out[f] = Array.from(new Set(all.map((r) => String(r[f])))).sort();
+      out[f] = Array.from(
+        new Set(all.map((r) => String(r[f] ?? "")).filter(Boolean)),
+      ).sort();
     }
     return out;
   }, [all, module.filters]);
+
 
   return (
     <div>
