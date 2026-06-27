@@ -21,8 +21,9 @@ import type {
   CrudService,
   ReadService,
   ServiceRegistry,
+  GenericRow,
 } from "../interfaces";
-import type { GenericRow, ListQuery, Page, ID } from "../types";
+import type { ListQuery, Page, ID } from "../types";
 
 function paginate<T extends GenericRow>(rows: T[], q: ListQuery = {}): Page<T> {
   const page = q.page ?? 1;

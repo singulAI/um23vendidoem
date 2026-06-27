@@ -13,8 +13,8 @@
  * the UI never has to change.
  */
 import { http } from "@/lib/api/http-client";
-import type { CrudService, ReadService, ServiceRegistry } from "../interfaces";
-import type { GenericRow, ListQuery, Page } from "../types";
+import type { CrudService, ReadService, ServiceRegistry, GenericRow } from "../interfaces";
+import type { ListQuery, Page } from "../types";
 
 function makeRead<T extends GenericRow>(resource: string): ReadService<T> {
   return {

@@ -99,13 +99,20 @@ export function useAuth() {
 
   const updatePreferences = useCallback(async (patch: Partial<Preferences>) => {
     if (!state.user) return;
+    const merged = { ...(state.preferences ?? {}), ...patch };
     const { data, error } = await supabase
       .from("user_preferences")
-      .upsert({ user_id: state.user.id, ...state.preferences, ...patch })
+      .upsert({
+        user_id: state.user.id,
+        theme: merged.theme,
+        language: merged.language,
+        sidebar_collapsed: merged.sidebar_collapsed,
+        extras: (merged.extras ?? {}) as never,
+      })
       .select()
       .single();
     if (error) throw error;
-    setState((s) => ({ ...s, preferences: data as Preferences }));
+    setState((s) => ({ ...s, preferences: data as unknown as Preferences }));
   }, [state.user, state.preferences]);
 
   const hasRole = useCallback((role: AppRole) => state.roles.includes(role), [state.roles]);
