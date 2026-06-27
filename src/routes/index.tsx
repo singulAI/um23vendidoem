@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -78,11 +78,11 @@ function Navbar({ visible }: { visible: boolean }) {
         <a href="#contato" className="hover:text-foreground transition-colors">Contato</a>
       </nav>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" className="hidden sm:inline-flex text-muted-foreground hover:text-foreground">
-          Entrar
+        <Button variant="ghost" asChild className="hidden sm:inline-flex text-muted-foreground hover:text-foreground">
+          <Link to="/app">Entrar</Link>
         </Button>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-          Começar agora
+        <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+          <Link to="/app">Abrir plataforma</Link>
         </Button>
       </div>
     </motion.header>
