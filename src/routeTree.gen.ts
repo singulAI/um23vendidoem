@@ -23,6 +23,8 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated.app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated.app.index'
+import { Route as AuthenticatedAppVisionRouteImport } from './routes/_authenticated.app.vision'
+import { Route as AuthenticatedAppUploadsRouteImport } from './routes/_authenticated.app.uploads'
 import { Route as AuthenticatedAppPerfilRouteImport } from './routes/_authenticated.app.perfil'
 import { Route as AuthenticatedAppModuleRouteImport } from './routes/_authenticated.app.$module'
 import { Route as AuthenticatedAppModuleIdRouteImport } from './routes/_authenticated.app.$module.$id'
@@ -97,6 +99,16 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppVisionRoute = AuthenticatedAppVisionRouteImport.update({
+  id: '/vision',
+  path: '/vision',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppUploadsRoute = AuthenticatedAppUploadsRouteImport.update({
+  id: '/uploads',
+  path: '/uploads',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
 const AuthenticatedAppPerfilRoute = AuthenticatedAppPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -135,6 +147,8 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/app/vision': typeof AuthenticatedAppVisionRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
@@ -153,6 +167,8 @@ export interface FileRoutesByTo {
   '/termos': typeof TermosRoute
   '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/app/vision': typeof AuthenticatedAppVisionRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
@@ -174,6 +190,8 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/_authenticated/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/_authenticated/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/_authenticated/app/vision': typeof AuthenticatedAppVisionRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/_authenticated/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
@@ -195,6 +213,8 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/$module'
     | '/app/perfil'
+    | '/app/uploads'
+    | '/app/vision'
     | '/app/'
     | '/app/$module/$id'
     | '/app/$module/$id/edit'
@@ -213,6 +233,8 @@ export interface FileRouteTypes {
     | '/termos'
     | '/app/$module'
     | '/app/perfil'
+    | '/app/uploads'
+    | '/app/vision'
     | '/app'
     | '/app/$module/$id'
     | '/app/$module/$id/edit'
@@ -233,6 +255,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/app/$module'
     | '/_authenticated/app/perfil'
+    | '/_authenticated/app/uploads'
+    | '/_authenticated/app/vision'
     | '/_authenticated/app/'
     | '/_authenticated/app/$module/$id'
     | '/_authenticated/app/$module/$id/edit'
@@ -353,6 +377,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/vision': {
+      id: '/_authenticated/app/vision'
+      path: '/vision'
+      fullPath: '/app/vision'
+      preLoaderRoute: typeof AuthenticatedAppVisionRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/uploads': {
+      id: '/_authenticated/app/uploads'
+      path: '/uploads'
+      fullPath: '/app/uploads'
+      preLoaderRoute: typeof AuthenticatedAppUploadsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/perfil': {
       id: '/_authenticated/app/perfil'
       path: '/perfil'
@@ -415,12 +453,16 @@ const AuthenticatedAppModuleRouteWithChildren =
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppModuleRoute: typeof AuthenticatedAppModuleRouteWithChildren
   AuthenticatedAppPerfilRoute: typeof AuthenticatedAppPerfilRoute
+  AuthenticatedAppUploadsRoute: typeof AuthenticatedAppUploadsRoute
+  AuthenticatedAppVisionRoute: typeof AuthenticatedAppVisionRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppModuleRoute: AuthenticatedAppModuleRouteWithChildren,
   AuthenticatedAppPerfilRoute: AuthenticatedAppPerfilRoute,
+  AuthenticatedAppUploadsRoute: AuthenticatedAppUploadsRoute,
+  AuthenticatedAppVisionRoute: AuthenticatedAppVisionRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
