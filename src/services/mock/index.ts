@@ -219,3 +219,6 @@ const resources: ServiceRegistry["resources"] = {
     ] as GenericRow[],
   ),
 };
+
+export const mockServices: ServiceRegistry = { dashboard, resources };
+
