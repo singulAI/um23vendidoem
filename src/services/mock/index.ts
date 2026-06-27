@@ -118,9 +118,7 @@ const dashboard: DashboardService = {
   },
 };
 
-export const mockServices: ServiceRegistry = {
-  dashboard,
-
+const resources: ServiceRegistry["resources"] = {
   // Operação / catálogo
   organizadores: makeCrud(() => cast(organizadores)),
   leiloes: makeCrud(() => cast(leiloes)),
