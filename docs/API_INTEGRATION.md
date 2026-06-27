@@ -238,3 +238,34 @@ escreve dentro da sua própria pasta). Helper: `uploadUserFile()` em
 ---
 
 _Frontend pronto para receber a FastAPI sem refatoração de UI._
+
+---
+
+## Consolidação final do frontend (pré-integração)
+
+A versão consolidada do frontend remove todos os mocks dispersos e padroniza o consumo:
+
+- **Único ponto de acesso a dados**: todos os componentes leem via `import { services } from "@/services"`. Nenhum componente importa `@/lib/mock` diretamente nem faz `fetch`/`axios`.
+- **ServiceRegistry** (`src/services/interfaces.ts`): exporta `services.dashboard` e `services.resources[moduleKey]`. Cada `resource` implementa `list`, `getById`, `create`, `update`, `remove`.
+- **MockProvider**: `src/services/mock/index.ts` — cobre 30+ módulos, com fixtures reais quando disponíveis e `placeholder()` quando o módulo ainda depende do backend.
+- **RestProvider**: `src/services/rest/index.ts` — Proxy lazy que monta CRUDs sobre o `httpClient`. Endpoints padrão `/{key}`; mapeamento por módulo em `RESOURCE_ENDPOINTS`.
+- **Toggle**: `VITE_API_PROVIDER=mock|rest` em `.env.local`.
+
+### Novas rotas
+
+- **Públicas**: `/sobre`, `/como-funciona`, `/planos`, `/contato`, `/ajuda`, `/lgpd`, `/termos`, `/privacidade`. Usam o shell `src/components/public/PublicPage.tsx`.
+- **Plataforma autenticada**: `/app/uploads` (Upload Center — UI apenas) e `/app/vision` (Vision AI — desabilitado via flag `vision.enabled` até a integração).
+- **Módulos genéricos**: `/app/$module` e `/app/$module/$id` cobrem 30+ módulos configurados em `src/lib/modules.tsx`.
+
+### Convenção de endpoints esperada do backend
+
+| Operação | Método | Path |
+| --- | --- | --- |
+| Listar | `GET` | `/{resource}?page=&pageSize=&search=&sort=&<filtros>` |
+| Detalhe | `GET` | `/{resource}/{id}` |
+| Criar | `POST` | `/{resource}` |
+| Atualizar | `PATCH` | `/{resource}/{id}` |
+| Remover | `DELETE` | `/{resource}/{id}` |
+| Dashboard | `GET` | `/dashboard/kpis`, `/dashboard/recent-auctions`, `/dashboard/recent-alerts`, `/dashboard/recent-jobs`, `/dashboard/top-organizers` |
+
+A troca para o backend FastAPI não exige alterações em componentes React — basta apontar `VITE_API_BASE_URL` e setar `VITE_API_PROVIDER=rest`.
