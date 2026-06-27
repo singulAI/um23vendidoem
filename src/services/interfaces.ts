@@ -19,47 +19,22 @@ export interface CrudService<T, TInput = Partial<T>> extends ReadService<T> {
   remove(id: ID): Promise<void>;
 }
 
-// Domain row types — kept loose on purpose. The mock layer already produces
-// plain objects keyed by these fields, and the FastAPI client will map its
-// responses into the same shape.
 export type GenericRow = Record<string, unknown> & { id: ID };
 
-export interface OrganizadoresService extends CrudService<GenericRow> {}
-export interface LeiloesService extends CrudService<GenericRow> {}
-export interface AuctionNoticesService extends CrudService<GenericRow> {}
-export interface LotesService extends CrudService<GenericRow> {}
-export interface VeiculosService extends CrudService<GenericRow> {}
-export interface FavoritesService extends CrudService<GenericRow> {}
-export interface RelatoriosService extends ReadService<GenericRow> {}
 export interface DashboardService {
   getKpis(): Promise<Record<string, number | string>>;
   getRecentAuctions(limit?: number): Promise<GenericRow[]>;
+  getRecentAlerts(limit?: number): Promise<GenericRow[]>;
+  getRecentJobs(limit?: number): Promise<GenericRow[]>;
+  getTopOrganizadores(limit?: number): Promise<GenericRow[]>;
 }
-export interface BillingService extends ReadService<GenericRow> {}
-export interface PagamentosService extends ReadService<GenericRow> {}
-export interface MonitoringService extends ReadService<GenericRow> {}
-export interface JobsService extends CrudService<GenericRow> {}
-export interface ConnectorsService extends CrudService<GenericRow> {}
-export interface IntelligenceService extends ReadService<GenericRow> {}
-export interface AlertasService extends CrudService<GenericRow> {}
-export interface AuditoriaService extends ReadService<GenericRow> {}
 
-/** Full service container exposed to the app. */
-export interface ServiceRegistry {
-  organizadores: OrganizadoresService;
-  leiloes: LeiloesService;
-  auctionNotices: AuctionNoticesService;
-  lotes: LotesService;
-  veiculos: VeiculosService;
-  favorites: FavoritesService;
-  relatorios: RelatoriosService;
+/**
+ * Full service container exposed to the app.
+ *
+ * Indexed by module key (matches ModuleConfig.key). The list of known keys
+ * is open — adding a new module is configuration, not type plumbing.
+ */
+export type ServiceRegistry = {
   dashboard: DashboardService;
-  billing: BillingService;
-  pagamentos: PagamentosService;
-  monitoring: MonitoringService;
-  jobs: JobsService;
-  connectors: ConnectorsService;
-  intelligence: IntelligenceService;
-  alertas: AlertasService;
-  auditoria: AuditoriaService;
-}
+} & Record<string, CrudService<GenericRow>>;
