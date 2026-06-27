@@ -113,11 +113,18 @@ export function AppShell() {
   );
 }
 
+const SPECIAL_LABELS: Record<string, string> = {
+  perfil: "Meu Perfil",
+  uploads: "Upload Center",
+  vision: "Vision AI",
+};
+
 function Breadcrumbs({ segments }: { segments: string[] }) {
   const crumbs: { label: string; to: string }[] = [{ label: "Plataforma", to: "/app" }];
   if (segments[0]) {
-    const mod = MODULES_BY_KEY[segments[0]];
-    crumbs.push({ label: mod?.label ?? segments[0], to: `/app/${segments[0]}` });
+    const label =
+      SPECIAL_LABELS[segments[0]] ?? MODULES_BY_KEY[segments[0]]?.label ?? segments[0];
+    crumbs.push({ label, to: `/app/${segments[0]}` });
   }
   if (segments[1] === "new") crumbs.push({ label: "Novo", to: "#" });
   else if (segments[1]) crumbs.push({ label: segments[1], to: "#" });
@@ -136,6 +143,7 @@ function Breadcrumbs({ segments }: { segments: string[] }) {
     </nav>
   );
 }
+
 
 function UserMenu() {
   const { user, profile, signOut } = useAuth();
