@@ -9,67 +9,69 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as AppModuleRouteImport } from './routes/app.$module'
-import { Route as AppModuleIdRouteImport } from './routes/app.$module.$id'
-import { Route as AppModuleIdEditRouteImport } from './routes/app.$module.$id.edit'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated.app'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated.app.index'
+import { Route as AuthenticatedAppModuleRouteImport } from './routes/_authenticated.app.$module'
+import { Route as AuthenticatedAppModuleIdRouteImport } from './routes/_authenticated.app.$module.$id'
+import { Route as AuthenticatedAppModuleIdEditRouteImport } from './routes/_authenticated.app.$module.$id.edit'
 
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/_authenticated/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AuthenticatedAppRoute,
 } as any)
-const AppModuleRoute = AppModuleRouteImport.update({
+const AuthenticatedAppModuleRoute = AuthenticatedAppModuleRouteImport.update({
   id: '/$module',
   path: '/$module',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AuthenticatedAppRoute,
 } as any)
-const AppModuleIdRoute = AppModuleIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AppModuleRoute,
-} as any)
-const AppModuleIdEditRoute = AppModuleIdEditRouteImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => AppModuleIdRoute,
-} as any)
+const AuthenticatedAppModuleIdRoute =
+  AuthenticatedAppModuleIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAppModuleRoute,
+  } as any)
+const AuthenticatedAppModuleIdEditRoute =
+  AuthenticatedAppModuleIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthenticatedAppModuleIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
-  '/app/$module': typeof AppModuleRouteWithChildren
-  '/app/': typeof AppIndexRoute
-  '/app/$module/$id': typeof AppModuleIdRouteWithChildren
-  '/app/$module/$id/edit': typeof AppModuleIdEditRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
+  '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
+  '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app/$module': typeof AppModuleRouteWithChildren
-  '/app': typeof AppIndexRoute
-  '/app/$module/$id': typeof AppModuleIdRouteWithChildren
-  '/app/$module/$id/edit': typeof AppModuleIdEditRoute
+  '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
+  '/app': typeof AuthenticatedAppIndexRoute
+  '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
+  '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
-  '/app/$module': typeof AppModuleRouteWithChildren
-  '/app/': typeof AppIndexRoute
-  '/app/$module/$id': typeof AppModuleIdRouteWithChildren
-  '/app/$module/$id/edit': typeof AppModuleIdEditRoute
+  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
+  '/_authenticated/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,27 +92,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/app'
-    | '/app/$module'
-    | '/app/'
-    | '/app/$module/$id'
-    | '/app/$module/$id/edit'
+    | '/_authenticated/app'
+    | '/_authenticated/app/$module'
+    | '/_authenticated/app/'
+    | '/_authenticated/app/$module/$id'
+    | '/_authenticated/app/$module/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRouteWithChildren
+  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -118,76 +113,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/': {
-      id: '/app/'
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
       path: '/'
       fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
-    '/app/$module': {
-      id: '/app/$module'
+    '/_authenticated/app/$module': {
+      id: '/_authenticated/app/$module'
       path: '/$module'
       fullPath: '/app/$module'
-      preLoaderRoute: typeof AppModuleRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppModuleRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
-    '/app/$module/$id': {
-      id: '/app/$module/$id'
+    '/_authenticated/app/$module/$id': {
+      id: '/_authenticated/app/$module/$id'
       path: '/$id'
       fullPath: '/app/$module/$id'
-      preLoaderRoute: typeof AppModuleIdRouteImport
-      parentRoute: typeof AppModuleRoute
+      preLoaderRoute: typeof AuthenticatedAppModuleIdRouteImport
+      parentRoute: typeof AuthenticatedAppModuleRoute
     }
-    '/app/$module/$id/edit': {
-      id: '/app/$module/$id/edit'
+    '/_authenticated/app/$module/$id/edit': {
+      id: '/_authenticated/app/$module/$id/edit'
       path: '/edit'
       fullPath: '/app/$module/$id/edit'
-      preLoaderRoute: typeof AppModuleIdEditRouteImport
-      parentRoute: typeof AppModuleIdRoute
+      preLoaderRoute: typeof AuthenticatedAppModuleIdEditRouteImport
+      parentRoute: typeof AuthenticatedAppModuleIdRoute
     }
   }
 }
 
-interface AppModuleIdRouteChildren {
-  AppModuleIdEditRoute: typeof AppModuleIdEditRoute
+interface AuthenticatedAppModuleIdRouteChildren {
+  AuthenticatedAppModuleIdEditRoute: typeof AuthenticatedAppModuleIdEditRoute
 }
 
-const AppModuleIdRouteChildren: AppModuleIdRouteChildren = {
-  AppModuleIdEditRoute: AppModuleIdEditRoute,
+const AuthenticatedAppModuleIdRouteChildren: AuthenticatedAppModuleIdRouteChildren =
+  {
+    AuthenticatedAppModuleIdEditRoute: AuthenticatedAppModuleIdEditRoute,
+  }
+
+const AuthenticatedAppModuleIdRouteWithChildren =
+  AuthenticatedAppModuleIdRoute._addFileChildren(
+    AuthenticatedAppModuleIdRouteChildren,
+  )
+
+interface AuthenticatedAppModuleRouteChildren {
+  AuthenticatedAppModuleIdRoute: typeof AuthenticatedAppModuleIdRouteWithChildren
 }
 
-const AppModuleIdRouteWithChildren = AppModuleIdRoute._addFileChildren(
-  AppModuleIdRouteChildren,
-)
+const AuthenticatedAppModuleRouteChildren: AuthenticatedAppModuleRouteChildren =
+  {
+    AuthenticatedAppModuleIdRoute: AuthenticatedAppModuleIdRouteWithChildren,
+  }
 
-interface AppModuleRouteChildren {
-  AppModuleIdRoute: typeof AppModuleIdRouteWithChildren
+const AuthenticatedAppModuleRouteWithChildren =
+  AuthenticatedAppModuleRoute._addFileChildren(
+    AuthenticatedAppModuleRouteChildren,
+  )
+
+interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppModuleRoute: typeof AuthenticatedAppModuleRouteWithChildren
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
-const AppModuleRouteChildren: AppModuleRouteChildren = {
-  AppModuleIdRoute: AppModuleIdRouteWithChildren,
+const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppModuleRoute: AuthenticatedAppModuleRouteWithChildren,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
-const AppModuleRouteWithChildren = AppModuleRoute._addFileChildren(
-  AppModuleRouteChildren,
-)
-
-interface AppRouteChildren {
-  AppModuleRoute: typeof AppModuleRouteWithChildren
-  AppIndexRoute: typeof AppIndexRoute
-}
-
-const AppRouteChildren: AppRouteChildren = {
-  AppModuleRoute: AppModuleRouteWithChildren,
-  AppIndexRoute: AppIndexRoute,
-}
-
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const AuthenticatedAppRouteWithChildren =
+  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRouteWithChildren,
+  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
