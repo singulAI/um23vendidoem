@@ -1,10 +1,45 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import type { ModuleConfig } from "@/lib/modules";
-import { Card, EmptyState, PageHeader, StatusPill } from "./Primitives";
+import { Card, EmptyState, PageHeader, SkeletonRows, StatusPill } from "./Primitives";
+import { services } from "@/services";
+import type { GenericRow } from "@/services/interfaces";
+
+function useResource(moduleKey: string, id: string | undefined) {
+  const [row, setRow] = useState<GenericRow | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    const svc = services.resources[moduleKey];
+    if (!svc || !id) {
+      setRow(null);
+      setLoading(false);
+      return;
+    }
+    svc
+      .getById(id)
+      .then((r) => !cancelled && setRow(r))
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [moduleKey, id]);
+  return { row, loading };
+}
 
 export function ModuleDetailPage({ module, id }: { module: ModuleConfig; id: string }) {
-  const row = module.data().find((r) => String(r.id) === id);
+  const { row, loading } = useResource(module.key, id);
+
+  if (loading) {
+    return (
+      <div>
+        <BackLink module={module} />
+        <Card><SkeletonRows /></Card>
+      </div>
+    );
+  }
 
   if (!row) {
     return (
@@ -14,6 +49,7 @@ export function ModuleDetailPage({ module, id }: { module: ModuleConfig; id: str
       </div>
     );
   }
+
 
   const titleCol = module.columns[0];
   const title = titleCol.format ? titleCol.format(row[titleCol.key]) : String(row[titleCol.key] ?? "");
