@@ -33,7 +33,7 @@ export function ModuleListPage({ module }: { module: ModuleConfig }) {
       .list({ page: 1, pageSize: 500 })
       .then((res) => {
         if (cancelled) return;
-        setAll(res.items);
+        setAll(res.data);
       })
       .catch((e: unknown) => {
         if (cancelled) return;
