@@ -72,18 +72,21 @@ function Navbar({ visible }: { visible: boolean }) {
     >
       <Logo123Vendido size={28} />
       <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-        <a href="#plataforma" className="hover:text-foreground transition-colors">Plataforma</a>
-        <a href="#inteligencia" className="hover:text-foreground transition-colors">Inteligência</a>
-        <a href="#precos" className="hover:text-foreground transition-colors">Preços</a>
-        <a href="#contato" className="hover:text-foreground transition-colors">Contato</a>
+        <Link to="/sobre" className="hover:text-foreground transition-colors">Sobre</Link>
+        <Link to="/como-funciona" className="hover:text-foreground transition-colors">Como funciona</Link>
+        <Link to="/planos" className="hover:text-foreground transition-colors">Planos</Link>
+        <Link to="/contato" className="hover:text-foreground transition-colors">Contato</Link>
+        <Link to="/ajuda" className="hover:text-foreground transition-colors">Ajuda</Link>
       </nav>
+
       <div className="flex items-center gap-2">
         <Button variant="ghost" asChild className="hidden sm:inline-flex text-muted-foreground hover:text-foreground">
-          <Link to="/app">Entrar</Link>
+          <Link to="/auth">Entrar</Link>
         </Button>
         <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-          <Link to="/app">Abrir plataforma</Link>
+          <Link to="/auth">Abrir plataforma</Link>
         </Button>
+
       </div>
     </motion.header>
   );
@@ -324,11 +327,15 @@ function Footer() {
           </p>
         </div>
         <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-foreground">Termos</a>
-          <a href="#" className="hover:text-foreground">Privacidade</a>
-          <a href="#" className="hover:text-foreground">Status</a>
-          <a href="#" className="hover:text-foreground">Contato</a>
+          <Link to="/sobre" className="hover:text-foreground">Sobre</Link>
+          <Link to="/planos" className="hover:text-foreground">Planos</Link>
+          <Link to="/ajuda" className="hover:text-foreground">Ajuda</Link>
+          <Link to="/contato" className="hover:text-foreground">Contato</Link>
+          <Link to="/lgpd" className="hover:text-foreground">LGPD</Link>
+          <Link to="/termos" className="hover:text-foreground">Termos</Link>
+          <Link to="/privacidade" className="hover:text-foreground">Privacidade</Link>
         </div>
+
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} 123Vendido. Todos os direitos reservados.
         </p>
