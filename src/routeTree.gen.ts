@@ -9,25 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermosRouteImport } from './routes/termos'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as LgpdRouteImport } from './routes/lgpd'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated.app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated.app.index'
+import { Route as AuthenticatedAppVisionRouteImport } from './routes/_authenticated.app.vision'
+import { Route as AuthenticatedAppUploadsRouteImport } from './routes/_authenticated.app.uploads'
 import { Route as AuthenticatedAppPerfilRouteImport } from './routes/_authenticated.app.perfil'
 import { Route as AuthenticatedAppModuleRouteImport } from './routes/_authenticated.app.$module'
 import { Route as AuthenticatedAppModuleIdRouteImport } from './routes/_authenticated.app.$module.$id'
 import { Route as AuthenticatedAppModuleIdEditRouteImport } from './routes/_authenticated.app.$module.$id.edit'
 
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanosRoute = PlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LgpdRoute = LgpdRouteImport.update({
+  id: '/lgpd',
+  path: '/lgpd',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComoFuncionaRoute = ComoFuncionaRouteImport.update({
+  id: '/como-funciona',
+  path: '/como-funciona',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AjudaRoute = AjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -47,6 +97,16 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppVisionRoute = AuthenticatedAppVisionRouteImport.update({
+  id: '/vision',
+  path: '/vision',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppUploadsRoute = AuthenticatedAppUploadsRouteImport.update({
+  id: '/uploads',
+  path: '/uploads',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
 const AuthenticatedAppPerfilRoute = AuthenticatedAppPerfilRouteImport.update({
@@ -74,21 +134,41 @@ const AuthenticatedAppModuleIdEditRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
+  '/lgpd': typeof LgpdRoute
+  '/planos': typeof PlanosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/app/vision': typeof AuthenticatedAppVisionRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
+  '/lgpd': typeof LgpdRoute
+  '/planos': typeof PlanosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/app/vision': typeof AuthenticatedAppVisionRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
@@ -97,11 +177,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/ajuda': typeof AjudaRoute
   '/auth': typeof AuthRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contato': typeof ContatoRoute
+  '/lgpd': typeof LgpdRoute
+  '/planos': typeof PlanosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/app/$module': typeof AuthenticatedAppModuleRouteWithChildren
   '/_authenticated/app/perfil': typeof AuthenticatedAppPerfilRoute
+  '/_authenticated/app/uploads': typeof AuthenticatedAppUploadsRoute
+  '/_authenticated/app/vision': typeof AuthenticatedAppVisionRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/$module/$id': typeof AuthenticatedAppModuleIdRouteWithChildren
   '/_authenticated/app/$module/$id/edit': typeof AuthenticatedAppModuleIdEditRoute
@@ -110,21 +200,41 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ajuda'
     | '/auth'
+    | '/como-funciona'
+    | '/contato'
+    | '/lgpd'
+    | '/planos'
+    | '/privacidade'
     | '/reset-password'
+    | '/sobre'
+    | '/termos'
     | '/app'
     | '/app/$module'
     | '/app/perfil'
+    | '/app/uploads'
+    | '/app/vision'
     | '/app/'
     | '/app/$module/$id'
     | '/app/$module/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ajuda'
     | '/auth'
+    | '/como-funciona'
+    | '/contato'
+    | '/lgpd'
+    | '/planos'
+    | '/privacidade'
     | '/reset-password'
+    | '/sobre'
+    | '/termos'
     | '/app/$module'
     | '/app/perfil'
+    | '/app/uploads'
+    | '/app/vision'
     | '/app'
     | '/app/$module/$id'
     | '/app/$module/$id/edit'
@@ -132,11 +242,21 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/ajuda'
     | '/auth'
+    | '/como-funciona'
+    | '/contato'
+    | '/lgpd'
+    | '/planos'
+    | '/privacidade'
     | '/reset-password'
+    | '/sobre'
+    | '/termos'
     | '/_authenticated/app'
     | '/_authenticated/app/$module'
     | '/_authenticated/app/perfil'
+    | '/_authenticated/app/uploads'
+    | '/_authenticated/app/vision'
     | '/_authenticated/app/'
     | '/_authenticated/app/$module/$id'
     | '/_authenticated/app/$module/$id/edit'
@@ -145,12 +265,34 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AjudaRoute: typeof AjudaRoute
   AuthRoute: typeof AuthRoute
+  ComoFuncionaRoute: typeof ComoFuncionaRoute
+  ContatoRoute: typeof ContatoRoute
+  LgpdRoute: typeof LgpdRoute
+  PlanosRoute: typeof PlanosRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SobreRoute: typeof SobreRoute
+  TermosRoute: typeof TermosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -158,11 +300,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planos': {
+      id: '/planos'
+      path: '/planos'
+      fullPath: '/planos'
+      preLoaderRoute: typeof PlanosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lgpd': {
+      id: '/lgpd'
+      path: '/lgpd'
+      fullPath: '/lgpd'
+      preLoaderRoute: typeof LgpdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/como-funciona': {
+      id: '/como-funciona'
+      path: '/como-funciona'
+      fullPath: '/como-funciona'
+      preLoaderRoute: typeof ComoFuncionaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ajuda': {
+      id: '/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AjudaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -191,6 +375,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/vision': {
+      id: '/_authenticated/app/vision'
+      path: '/vision'
+      fullPath: '/app/vision'
+      preLoaderRoute: typeof AuthenticatedAppVisionRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/uploads': {
+      id: '/_authenticated/app/uploads'
+      path: '/uploads'
+      fullPath: '/app/uploads'
+      preLoaderRoute: typeof AuthenticatedAppUploadsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/perfil': {
@@ -255,12 +453,16 @@ const AuthenticatedAppModuleRouteWithChildren =
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppModuleRoute: typeof AuthenticatedAppModuleRouteWithChildren
   AuthenticatedAppPerfilRoute: typeof AuthenticatedAppPerfilRoute
+  AuthenticatedAppUploadsRoute: typeof AuthenticatedAppUploadsRoute
+  AuthenticatedAppVisionRoute: typeof AuthenticatedAppVisionRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppModuleRoute: AuthenticatedAppModuleRouteWithChildren,
   AuthenticatedAppPerfilRoute: AuthenticatedAppPerfilRoute,
+  AuthenticatedAppUploadsRoute: AuthenticatedAppUploadsRoute,
+  AuthenticatedAppVisionRoute: AuthenticatedAppVisionRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
@@ -282,8 +484,16 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AjudaRoute: AjudaRoute,
   AuthRoute: AuthRoute,
+  ComoFuncionaRoute: ComoFuncionaRoute,
+  ContatoRoute: ContatoRoute,
+  LgpdRoute: LgpdRoute,
+  PlanosRoute: PlanosRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SobreRoute: SobreRoute,
+  TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

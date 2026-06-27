@@ -18,7 +18,7 @@ export function AppShell() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const seg = pathname.replace(/^\/app\/?/, "").split("/").filter(Boolean);
-  const activeKey = seg[0] || "dashboard";
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -32,39 +32,43 @@ export function AppShell() {
         <div className="flex h-16 items-center border-b border-border px-5">
           <Link to="/app"><Logo123Vendido size={22} /></Link>
         </div>
-        <nav className="flex h-[calc(100vh-4rem)] flex-col gap-6 overflow-y-auto p-4 text-sm">
+        <nav className="flex h-[calc(100vh-4rem)] flex-col gap-5 overflow-y-auto p-4 text-sm">
           {NAV_GROUPS.map((group) => (
             <div key={group.label}>
               <p className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
-              <ul className="space-y-0.5">
-                {group.items.map((item) => {
-                  const to = item.key === "dashboard" ? "/app" : `/app/${item.key}`;
-                  const active = item.key === activeKey || (item.key === "dashboard" && activeKey === "dashboard");
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.key}>
-                      <Link
-                        to={to}
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center gap-3 rounded-md px-2.5 py-2 transition-colors",
-                          active
-                            ? "bg-primary/10 text-primary"
-                            : "text-muted-foreground hover:bg-surface hover:text-foreground",
-                        )}
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span>{item.label}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+              {group.sections.map((section, sIdx) => (
+                <ul key={sIdx} className="space-y-0.5">
+                  {section.items.map((item) => {
+                    const active =
+                      pathname === item.to ||
+                      (item.to !== "/app" && pathname.startsWith(item.to));
+                    const Icon = item.icon;
+                    return (
+                      <li key={item.key}>
+                        <Link
+                          to={item.to}
+                          onClick={() => setOpen(false)}
+                          className={cn(
+                            "flex items-center gap-3 rounded-md px-2.5 py-2 transition-colors",
+                            active
+                              ? "bg-primary/10 text-primary"
+                              : "text-muted-foreground hover:bg-surface hover:text-foreground",
+                          )}
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span className="truncate">{item.label}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ))}
             </div>
           ))}
         </nav>
+
       </aside>
 
       {/* Main column */}
@@ -109,11 +113,18 @@ export function AppShell() {
   );
 }
 
+const SPECIAL_LABELS: Record<string, string> = {
+  perfil: "Meu Perfil",
+  uploads: "Upload Center",
+  vision: "Vision AI",
+};
+
 function Breadcrumbs({ segments }: { segments: string[] }) {
   const crumbs: { label: string; to: string }[] = [{ label: "Plataforma", to: "/app" }];
   if (segments[0]) {
-    const mod = MODULES_BY_KEY[segments[0]];
-    crumbs.push({ label: mod?.label ?? segments[0], to: `/app/${segments[0]}` });
+    const label =
+      SPECIAL_LABELS[segments[0]] ?? MODULES_BY_KEY[segments[0]]?.label ?? segments[0];
+    crumbs.push({ label, to: `/app/${segments[0]}` });
   }
   if (segments[1] === "new") crumbs.push({ label: "Novo", to: "#" });
   else if (segments[1]) crumbs.push({ label: segments[1], to: "#" });
@@ -132,6 +143,7 @@ function Breadcrumbs({ segments }: { segments: string[] }) {
     </nav>
   );
 }
+
 
 function UserMenu() {
   const { user, profile, signOut } = useAuth();
